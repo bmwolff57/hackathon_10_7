@@ -68,6 +68,16 @@ Common themes: coordination, communication, resource allocation, information man
 
 Whatever the problem: find the single decision-maker's workflow and make it 10x faster. Judges are emergency-response people; speak in their verbs (dispatch, triage, escalate, verify).
 
+## Hackathon context
+
+- **Challenge 1 — Resy outage:** A restaurant relies on Resy to manage reservations and availability. Resy goes down early in the afternoon, and the restaurant needs a practical way to reach customers directly, verify availability, and confirm tonight's bookings with them.
+- **Focus:** Incident response, especially how teams can resolve incidents 50% faster and prevent them from recurring.
+- **Speaker context:** Toney, an SRE, is interested in an AI twin of workers that can draw on their conversations and code to help teams respond to incidents.
+- **Incident impact:** Incidents may affect apps or payment systems and cause harm to businesses and users.
+- **Judging lens:** Keep three things on the judge's mind in view when shaping a solution: speed of incident resolution, prevention of future incidents, and how well the team competes and collaborates to find the best solution.
+- **What judges value:** Explain the problem and solution clearly; demonstrate speed and practical usefulness; make smart, explicit tradeoffs; and explain why the approach fits the incident-response need.
+- **Team dynamic:** The best team both competes and collaborates to produce the strongest response.
+
 ## House rules for the agent
 
 - Prefer editing existing files over creating new ones. Prefer the smallest change that keeps the demo path green.
