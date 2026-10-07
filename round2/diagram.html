@@ -1,0 +1,76 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Get Me Home NYC</title>
+<style>
+:root{--ink:#1a1a1a;--mute:#5f5f5f;--line:#e3e3e0;--panel:#f4f4f0;--blue:#2546a8;--red:#b3261e;--redbg:#fdecea;--grn:#1b6e35;--grnbg:#e8f3ea;--amb:#8a5a00;--ambbg:#fff4dc}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,sans-serif}
+.wrap{max-width:1180px;margin:auto;padding:40px 16px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+.step{color:var(--blue);font-size:13px;letter-spacing:.08em}
+h1{font-size:40px;margin:6px 0 8px;letter-spacing:-.01em}
+.sub{color:var(--mute);font-size:17px;max-width:760px;margin:0 0 28px;line-height:1.45}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;position:relative}
+.box{border:1px solid var(--line);border-radius:12px;padding:16px;position:relative;background:#fff}
+.box.key{border:2px solid var(--ink)}
+.box h3{margin:6px 0 6px;font-size:17px}
+.box p{margin:0;color:var(--mute);font-size:14px;line-height:1.45}
+.box ul{margin:8px 0 0;padding-left:16px;font-size:13px;color:var(--mute);line-height:1.6}
+.box:not(:last-child)::after{content:"→";position:absolute;right:-22px;top:46%;color:#999;font-size:20px}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.tier{border-radius:12px;padding:16px}
+.tier h4{margin:0 0 4px;font-size:20px}.tier b{font-size:14px}.tier p{margin:6px 0 0;font-size:14px;line-height:1.45}
+.c{background:var(--redbg);color:var(--red)}.l{background:var(--ambbg);color:var(--amb)}.r{background:var(--panel);color:var(--mute)}
+.lbl{font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--mute);text-transform:uppercase;margin:32px 0 10px}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.t{border:1px solid var(--line);border-radius:12px;padding:14px;position:relative}
+.t:not(:last-child)::after{content:"→";position:absolute;right:-22px;top:42%;color:#999;font-size:20px}
+.t .when{font-size:12px;color:var(--mute)}
+.t .what{font-size:15px;font-weight:600;margin:8px 0 4px}
+.t .res{font-size:13px;color:var(--mute)}
+.chip{display:inline-block;padding:3px 8px;border-radius:6px;font-size:12px;margin-top:6px}
+.chans{display:flex;flex-wrap:wrap;gap:8px}
+.chans span{background:var(--panel);border-radius:999px;padding:6px 12px;font-size:13px}
+.rule{background:var(--panel);border-radius:12px;padding:16px 20px;margin-top:28px}
+.rule b{display:block;margin-bottom:4px}
+@media(max-width:900px){.flow,.timeline{grid-template-columns:1fr}.tiers{grid-template-columns:1fr}
+ .box:not(:last-child)::after,.t:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-24px}}
+</style></head><body><div class="wrap">
+
+<div class="step mono">GET ME HOME NYC · HOW IT WORKS</div>
+<h1>One verified feed, only when the city needs it</h1>
+<p class="sub">A city-sponsored data API that turns official alerts, transit load and social signals into verified closures and smarter routes home, then delivers them inside apps people already use.</p>
+
+<div class="flow">
+ <div class="box"><div class="step mono">01</div><h3>Activate</h3><p>NYC Emergency Management declares event mode.</p>
+  <ul><li>Parade, flood, blackout</li><li>Auto-expires</li><li>Off by default</li></ul></div>
+ <div class="box"><div class="step mono">02</div><h3>Ingest</h3><p>Pull every signal for the zone.</p>
+  <ul><li>NYPD / DOT / MTA alerts</li><li>Station &amp; phone density</li><li>Social text &amp; photos</li></ul></div>
+ <div class="box key"><div class="step mono">03</div><h3>Verify</h3><p>Score every closure by source. Social alone never closes a street.</p>
+  <ul><li>Confirmed · Likely · Reported</li></ul></div>
+ <div class="box"><div class="step mono">04</div><h3>Route &amp; balance</h3><p>Walk a little further to a quieter train or a pickup zone.</p>
+  <ul><li>Spread people across options</li><li>"Leave now" vs "wait"</li></ul></div>
+ <div class="box"><div class="step mono">05</div><h3>Deliver</h3><p>Certified sponsors pull the public feed.</p>
+  <ul><li>Maps, rideshare, socials</li><li>Kiosks, arena screens</li><li>SMS for any phone</li></ul></div>
+</div>
+
+<div class="tiers">
+ <div class="tier c"><h4>Confirmed</h4><b>Official source</b><p>NYPD, DOT, MTA or OEM says so. Routes avoid it.</p></div>
+ <div class="tier l"><h4>Likely</h4><b>3+ social signals, same spot</b><p>Routes avoid it, flagged for official check.</p></div>
+ <div class="tier r"><h4>Reported</h4><b>1–2 social signals</b><p>Shown as a note only. Times out if nobody confirms.</p></div>
+</div>
+
+<div class="lbl">One fan leaving MSG after the final buzzer</div>
+<div class="timeline">
+ <div class="t"><div class="when mono">10:41 PM · event mode on</div><div class="what">Head to Penn Station</div><div class="res">1 2 3 train, 2 min walk</div><span class="chip r mono">nearest wins</span></div>
+ <div class="t"><div class="when mono">10:46 PM · 1 social post</div><div class="what">Still Penn Station</div><div class="res">"Penn gates closed?" shown as a note</div><span class="chip r mono">reported</span></div>
+ <div class="t"><div class="when mono">10:49 PM · NYPD confirms</div><div class="what">Walk 4 min to Herald Sq</div><div class="res">Banner: avoid Penn, gates closed</div><span class="chip c mono">confirmed</span></div>
+ <div class="t"><div class="when mono">10:50 PM · next 200 fans</div><div class="what">Some sent to 28 St</div><div class="res">So Herald Sq doesn't become the new crush</div><span class="chip l mono">load balanced</span></div>
+</div>
+
+<div class="lbl">Delivered through certified sponsors</div>
+<div class="chans"><span>Waze · Google · Apple Maps</span><span>Citymapper · Transit</span><span>MTA app &amp; station screens</span><span>Uber · Lyft pickup pins</span><span>X · Instagram · TikTok · WhatsApp</span><span>LinkNYC kiosks</span><span>MSG &amp; Times Sq screens</span><span>SMS: text your cross street</span></div>
+
+<div class="rule"><b>The one rule</b>The feed is live only during a declared event. It keeps aggregates, never profiles. When the event ends, raw social data is deleted and every decision stays in a public audit log.</div>
+
+</div></body></html>
