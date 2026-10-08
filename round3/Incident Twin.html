@@ -1,0 +1,116 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Incident Twin</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: same system as Get Me Home NYC. Header, 5-step flow, label tiers, one incident over time, who sees what, the one rule. */
+:root{--bg:#fff;--ink:#1a1a1a;--mute:#5f5f5f;--line:#e3e3e0;--panel:#f4f4f0;--arrow:#9a9a96;--blue:#2546a8;--bluebg:#e9edf8;--red:#b3261e;--redbg:#fdecea;--grn:#1b6e35;--grnbg:#e8f3ea;--amb:#8a5a00;--ambbg:#fff4dc;
+ --sans:"IBM Plex Sans",system-ui,-apple-system,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141414;--ink:#ececea;--mute:#a3a3a0;--line:#2e2e2c;--panel:#1f1f1d;--arrow:#6e6e6a;--blue:#8ea6f0;--bluebg:#1c2440;--red:#f2958d;--redbg:#3a1c1a;--grn:#86cf9b;--grnbg:#16301f;--amb:#e8bb63;--ambbg:#352813;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141414;--ink:#ececea;--mute:#a3a3a0;--line:#2e2e2c;--panel:#1f1f1d;--arrow:#6e6e6a;--blue:#8ea6f0;--bluebg:#1c2440;--red:#f2958d;--redbg:#3a1c1a;--grn:#86cf9b;--grnbg:#16301f;--amb:#e8bb63;--ambbg:#352813;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans)}
+.wrap{max-width:1180px;margin:auto;padding-block:40px;padding-inline:16px}
+.mono{font-family:var(--mono)}
+.step{color:var(--blue);font-size:13px;letter-spacing:.08em}
+h1{font-size:clamp(28px,4.5vw,40px);margin:6px 0 8px;letter-spacing:-.01em;text-wrap:balance}
+.sub{color:var(--mute);font-size:17px;max-width:760px;margin:0 0 28px;line-height:1.45}
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:28px}
+.box{border:1px solid var(--line);border-radius:12px;padding:16px;position:relative;background:var(--bg)}
+.box.key{border:2px solid var(--ink)}
+.box h3{margin:6px 0 6px;font-size:17px}
+.box p{margin:0;color:var(--mute);font-size:14px;line-height:1.45}
+.box ul{margin:8px 0 0;padding-left:16px;font-size:13px;color:var(--mute);line-height:1.6}
+.box:not(:last-child)::after,.t:not(:last-child)::after{content:"→";position:absolute;right:-22px;top:44%;color:var(--arrow);font-size:20px}
+.lbl{font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--mute);text-transform:uppercase;margin:32px 0 10px}
+.tiers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.tier{border-radius:12px;padding:16px}
+.tier h4{margin:0 0 4px;font-size:20px}.tier b{font-size:14px}.tier p{margin:6px 0 0;font-size:14px;line-height:1.45}
+.tier .ex{font-family:var(--mono);font-size:12px;margin-top:10px;opacity:.85}
+.r{background:var(--panel);color:var(--mute)}.g{background:var(--grnbg);color:var(--grn)}.l{background:var(--ambbg);color:var(--amb)}.b{background:var(--bluebg);color:var(--blue)}.c{background:var(--redbg);color:var(--red)}
+.timeline{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px}
+.t{border:1px solid var(--line);border-radius:12px;padding:14px;position:relative}
+.t .when{font-size:12px;color:var(--mute)}
+.t .what{font-size:15px;font-weight:600;margin:8px 0 4px}
+.t .res{font-size:13px;color:var(--mute);line-height:1.45}
+.chip{display:inline-block;padding:3px 8px;border-radius:6px;font-size:12px;margin-top:8px}
+.views{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.view{border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.view h4{margin:0 0 2px;font-size:16px}
+.view .who{font-size:13px;color:var(--mute);margin-bottom:12px}
+.banner{background:var(--panel);border-radius:8px;padding:10px 12px;font-size:13px;line-height:1.5}
+.banner + .banner{margin-top:8px}
+.banner b{font-weight:600}
+.card{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-size:13px;padding:10px 12px;border-radius:8px;background:var(--panel)}
+.card + .card{margin-top:8px}
+.card .n{font-weight:600}.card .tr{font-family:var(--mono);font-size:12px;text-align:right}
+.card .s{color:var(--mute);grid-column:1/-1}
+.up{color:var(--red)}.flat{color:var(--mute)}
+.btns{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.btns span{font-size:12px;border:1px solid var(--line);border-radius:6px;padding:4px 8px}
+.btns span.pri{background:var(--blue);color:var(--bg);border-color:var(--blue)}
+.rule{background:var(--panel);border-radius:12px;padding:16px 20px;margin-top:28px;line-height:1.5}
+.rule b{display:block;margin-bottom:4px}
+@media(max-width:900px){.flow,.timeline,.views{grid-template-columns:1fr}.tiers{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .box:not(:last-child)::after,.t:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-25px}}
+@media(max-width:480px){.tiers{grid-template-columns:1fr}}
+</style>
+<div class="wrap">
+
+<div class="step mono">INCIDENT TWIN · HOW IT WORKS</div>
+<h1>One live incident, not 300 separate calls</h1>
+<p class="sub">When call volume spikes, Incident Twin groups every report from 911, 311, web forms and responder radio into one live picture of each incident: where it is, how it's moving, and whether it's getting worse. Front-line staff can flag a grouping but never finalize it. A dispatch supervisor reviews every grouping across the floor and makes the final call before units go out from CAD.</p>
+
+<div class="flow">
+ <div class="box"><div class="step mono">01</div><h3>Ingest</h3><p>Every report, transcribed live while the call is still going.</p>
+  <ul><li>911 voice (baseline)</li><li>311, tip line, web forms</li><li>Responder radio updates</li></ul></div>
+ <div class="box key"><div class="step mono">02</div><h3>Categorize</h3><p>Link each report to an incident, using place, time, path and details.</p>
+  <ul><li>Duplicate · Update</li><li>Consequence · Separate</li></ul></div>
+ <div class="box"><div class="step mono">03</div><h3>Prioritize</h3><p>Rank incidents, not calls. Feeds existing priority codes.</p>
+  <ul><li>Severity trend</li><li>Call volume spike</li><li>New urgent detail</li></ul></div>
+ <div class="box"><div class="step mono">04</div><h3>Visualize</h3><p>Show the incident. Hide the calls until someone asks.</p>
+  <ul><li>Footprints on a map</li><li>Alerts on change only</li></ul></div>
+ <div class="box"><div class="step mono">05</div><h3>Escalate &amp; decide</h3><p>Every grouping goes up to the dispatch supervisor, who sees all incidents at once and makes the final call.</p>
+  <ul><li>Approve, split or send back</li><li>Front line flags, never finalizes</li><li>Then units go out in CAD</li></ul></div>
+</div>
+
+<div class="lbl">Every new report gets one of four labels</div>
+<div class="tiers">
+ <div class="tier r"><h4>Duplicate</h4><b>Same incident, nothing new</b><p>Filed under the incident. Call count goes up.</p><div class="ex">40th call: "car on fire"</div></div>
+ <div class="tier g"><h4>Update</h4><b>Same incident, new detail</b><p>Changes the incident's footprint, severity or needs.</p><div class="ex">"Fire spread next door"</div></div>
+ <div class="tier l"><h4>Consequence</h4><b>New incident caused by this one</b><p>Its own ticket, linked to the parent. May need its own unit.</p><div class="ex">Second fight down the block</div></div>
+ <div class="tier b"><h4>Separate</h4><b>Unrelated, close by chance</b><p>Its own ticket, never merged. Ranked on its own.</p><div class="ex">Heart attack 2 blocks away</div></div>
+</div>
+
+<div class="lbl">One incident over 12 minutes · stolen car, Upper West Side</div>
+<div class="timeline">
+ <div class="t"><div class="when mono">11:02 PM · 9 calls, 6 blocks</div><div class="what">Reckless driver on Broadway</div><div class="res">Noise, speeding, near misses. Reports line up along one northbound path.</div><span class="chip r mono">one moving incident</span></div>
+ <div class="t"><div class="when mono">11:06 PM · 31 calls, 1 corner</div><div class="what">Crash into pole, car on fire</div><div class="res">W 96th &amp; Broadway. Same car color and make, end of the same path.</div><span class="chip g mono">update · needs FDNY + EMS</span></div>
+ <div class="t"><div class="when mono">11:07 PM · 1 call</div><div class="what">"Someone's still in the car"</div><div class="res">One report with a new detail jumps the whole incident to the top.</div><span class="chip c mono">priority up</span></div>
+ <div class="t"><div class="when mono">11:14 PM · 6 calls</div><div class="what">Fight breaks out in the crowd</div><div class="res">New people, new trigger, across the street. Linked, but sent separately.</div><span class="chip l mono">consequence · own ticket</span></div>
+</div>
+
+<div class="lbl">What each person sees</div>
+<div class="views">
+ <div class="view"><h4>Call-taker</h4><div class="who">During the call</div>
+  <div class="banner"><b>Likely Incident #12:</b> car fire, W 96th &amp; Broadway. 6 others on this now.</div>
+  <div class="banner"><b>Known:</b> fire, 1 car, person inside.<br><b>Still unknown:</b> how many inside? Spreading?</div>
+  <div class="btns"><span>Flag: not the same</span></div>
+ </div>
+ <div class="view"><h4>Dispatcher</h4><div class="who">Incidents, ranked · can flag, can't finalize</div>
+  <div class="card"><span class="n">#12 Car fire, person trapped</span><span class="tr up">▲ 47 calls</span><span class="s">Grouping waiting for supervisor.</span></div>
+  <div class="card"><span class="n">#14 Fight, W 96th</span><span class="tr up">▲ 6 calls</span><span class="s">Linked to #12. Waiting for supervisor.</span></div>
+  <div class="card"><span class="n">#13 Cardiac, W 94th</span><span class="tr flat">— 1 call</span><span class="s">Separate. Never grouped, sent straight away.</span></div>
+  <div class="btns"><span>Flag to supervisor</span></div>
+ </div>
+ <div class="view"><h4>Dispatch supervisor</h4><div class="who">Every grouping on the floor · final decision</div>
+  <div class="banner"><b>#12</b> · 47 reports: 9 along Broadway, 37 at the pole, 1 trapped person. Plan: E-74, A-22 to W 96th.</div>
+  <div class="banner"><b>#14</b> · 6 reports, linked as a consequence of #12. Plan: P-7 to the crowd. <b>1 flag</b> from a dispatcher.</div>
+  <div class="btns"><span class="pri">Approve grouping</span><span>Split reports</span><span>Send back</span></div>
+ </div>
+</div>
+
+<div class="rule"><b>The one rule</b>AI proposes, a senior person decides. Call-takers and dispatchers can flag a grouping, but only the dispatch supervisor, who sees every grouping on the floor, can approve, split or close one. No report is ever deleted, only linked. Medical, weapon and trapped-person reports are never held for grouping; they go out straight away. Every flag and decision is logged with who made it and why.</div>
+
+</div>
+
+</body></html>

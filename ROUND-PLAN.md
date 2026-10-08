@@ -1,52 +1,55 @@
-# ROUND-PLAN — Round 2: Get Me Home NYC
+# ROUND-PLAN — Round 3: Incident Twin
 
 - **Round start:** 2026-10-07, active work session (America/New_York)
 - **Demo owner:** TBD
 - **Builders:** TBD
-- **Core loop:** official and social reports + origin → closure verification and load-balanced routing → route advice and audit log
+- **Core loop:** multi-channel reports → rule-based incident grouping and triage → supervisor review and dispatch decision
 
 ## 1. Problem
 
-During a parade, flood, or blackout, a transit closure or crowd surge can strand people trying to get home. Get Me Home NYC turns official alerts and privacy-preserving social reports into a verified feed and safer station recommendations, and stays off outside a declared event window.
+During a call surge, dispatchers can receive many reports about the same moving incident while missing urgent details or confusing nearby unrelated emergencies. Incident Twin groups reports into explainable incidents, sends critical reports immediately, and gives a supervisor the final say on proposed groupings.
 
 ## 2. Architecture
 
 ```mermaid
 graph LR
-    A[Official and social reports] --> B[In-memory verification]
-    C[Origin and assigned riders] --> D[Route scoring]
-    B --> D
-    D --> E[Feed, route, SMS advice]
-    A --> F[Audit log]
+    A[911, 311, forms, radio] --> B[Rule-based labels and grouping]
+    B --> C[Ranked incidents and urgent dispatch]
+    C --> D[Role-based supervisor review]
+    D --> E[Decision and audit log]
 ```
 
 ## 3. Demo script (90 seconds)
 
-1. Activate a parade event and request a route from MSG.
-2. Report one social signal for 34 St-Penn Station; show that it is only reported and routing stays the same.
-3. **Aha:** add an NYPD report for Penn; it becomes confirmed and the recommended route flips.
+1. Load 14 demo calls as Dispatcher. **Aha:** show 14 reports grouped into 3 incidents.
+2. Open the stolen vehicle incident and show its footprint from 86th to 96th Street.
+3. Show the separate cardiac emergency marked Sent now, despite being nearby.
+4. Try Approve as Dispatcher (blocked), then flag the grouping.
+5. Switch to Dispatch supervisor, review and approve; show the log.
 
 ## 4. Tradeoffs
 
-- Use seeded station loads and in-memory reports because this is a short, reproducible demo.
-- Do not connect to live city, transit, social, or SMS services; the demo focuses on verification and routing behavior.
-- Keep the feed off by default and retain only social place names to reduce exposure and avoid stale public guidance.
+- Use deterministic rules and seeded reports instead of an LLM or live feeds so every grouping is explainable and the demo is repeatable.
+- Use a simple street/avenue block distance instead of a map service.
+- Let a matching vehicle continue a moving incident beyond the 2-block category-match radius to preserve the supplied 86th-to-96th Street seed outcome; category-only matches stay within 2 blocks.
+- Keep units as a small in-memory pool; the supervisor approves a draft, while actual CAD integration is out of scope.
 
 ## 5. Smoke tests
 
-- [x] `test_feed_off_by_default`
-- [x] `test_demo_happy_path`
+- [x] `test_demo_groups_into_three_incidents`
+- [x] `test_cardiac_stays_separate_and_dispatches_now`
+- [x] `test_fight_is_consequence_of_car_incident`
+- [x] `test_only_supervisor_can_decide`
 - [x] `test_api_rejects_bad_input`
-- [x] `test_deactivate_deletes_social`
 
-**Demo command:** `uv run uvicorn round2.app:app --reload`
+**Demo command:** `uv run flask --app round3.app:app run --debug` (from the repository root)
 
-**Demo URL:** `http://127.0.0.1:8000`
+**Demo URL:** `http://127.0.0.1:5000`
 
 **Required configuration:** none
 
-**Verification:** `uv run pytest -x -q` — 4 passed. The documented curl flow was also run against a local Uvicorn server; the route changed from Penn to Herald Sq after the NYPD report.
+**Verification:** `uv run pytest -x -q` from `round3/` — 5 passed. Local Flask smoke check returned the page at `/` and loaded 14 reports into 3 incidents.
 
 ## 6. What we'd do with 4 more hours
 
-Connect official alert and transit crowding feeds, add expiry and provenance handling for reports, and pilot the recommendations with city emergency managers before sharing routes publicly.
+Connect authenticated dispatch feeds, validate grouping quality with supervisors using replayed incidents, and add a map-backed location model and a controlled CAD handoff after human approval.
